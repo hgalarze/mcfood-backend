@@ -4,6 +4,21 @@ API REST desarrollada con Node.js, Express y MongoDB que gestiona **Productos**,
 Se trata del backend de una plataforma de gestión diseñada para negocios de comida rápida. Actualmente ofrece un backoffice administrativo que permite al personal autorizado gestionar usuarios internos, categorías de productos y productos del menú, con control centralizado y acceso seguro.
 A futuro se puede integrar una la parte de e-commerce para que los clientes puedan visualizar el menú, realizar pedidos en línea y hacer pagos desde la web o dispositivos móviles, convirtiendo el sistema en una solución completa para la operación digital del negocio.
 
+---
+
+## Topics
+- [📌 Tecnologías utilizadas](#-tecnologías-utilizadas)
+- [📂 Estructura del proyecto](#-estructura-del-proyecto)
+- [🗄️ Esquema de la Base de Datos (MongoDB con Mongoose)](#️-esquema-de-la-base-de-datos-mongodb-con-mongoose)
+- [🚀 Cómo correr el proyecto](#-cómo-correr-el-proyecto)
+- [✅ Endpoints Disponibles](#-endpoints-disponibles)
+- [🧪 Mock JSON (solo POST)](#-mock-json-solo-post)
+- [🔐 Autenticación](#-autenticación)
+- [💾 Base de datos MongoDB con Docker](#-base-de-datos-mongodb-con-docker)
+- [📄 LICENSE](#-license)
+
+---
+
 ## 📌 Tecnologías utilizadas
 
 | Tecnología | Uso |
@@ -300,7 +315,113 @@ o enviar token en headers:
 Authorization: Bearer <token>
 ```
 
+## 💾 Base de datos MongoDB con Docker
+
+Este proceso levanta una instancia de **MongoDB Community Server** mediante Docker. Incluye un script de inicialización para crear base de datos, colecciones o datos iniciales automáticamente la primera vez que se ejecuta.
+
+### 📁 Contenido del proyecto
+
+```
+.
+├─ docker-compose.yml
+└─ init/
+   └─ init.mongodb.js
+```
+
+#### ¿Qué hace cada archivo?
+
+| Archivo | Descripción |
+|---------|-------------|
+| `docker-compose.yml` | Define el contenedor de MongoDB y un volumen persistente para los datos |
+| `init/init.mongodb.js` | Script que se ejecuta automáticamente la primera vez, permitiendo crear base, usuarios o datos iniciales |
+
+### ✅ Requisitos
+
+- Docker instalado
+- Docker Desktop o Docker Engine
+- (Opcional) MongoDB Compass o cualquier cliente para conectarse a la base
+
+### 🚀 Cómo levantar MongoDB
+
+Ejecutar desde la carpeta donde está `docker-compose.yml`:
+
+```bash
+docker compose up -d
+```
+
+Esto hará:
+
+✅ Descargar la imagen oficial de MongoDB  
+✅ Crear y ejecutar el contenedor `mongodb`  
+✅ Crear un volumen persistente  
+✅ Ejecutar el script `init.mongodb.js` si es la primera vez
+
+### 🧪 Verificar que está corriendo
+
+```bash
+docker ps
+```
+
+Debe aparecer algo similar:
+
+```
+mongodb   ...   27017->27017/tcp
+```
+
+Luego puedes conectarte con:
+
+- **Host:** `localhost`
+- **Puerto:** `27017`
+
+### 🧰 ¿Qué hace `init.mongodb.js`?
+
+Este archivo se ejecuta automáticamente en el primer arranque del contenedor. 
+
+Sirve para:
+
+✅ Crear la base  
+✅ Crear colecciones  
+✅ Insertar datos de prueba  
+✅ Crear usuarios y roles
+
+> Puedes modificarlo libremente para personalizar la inicialización.
+
+### 🛑 Detener el contenedor
+
+```bash
+docker compose down
+```
+
+> ➡️ Esto **no borra los datos**, porque se guardan en un volumen persistente.
+
+### 🗑 Eliminar contenedor + volumen + datos
+
+```bash
+docker compose down -v
+```
+
+> ⚠️ Esto borra la base completa. Úsalo solo si estás seguro.
+
+### 📡 Conectarse desde un backend Node/Mongoose
+
+```js
+mongoose.connect("mongodb://localhost:27017/mcfood");
+```
+
+### ✅ Comandos rápidos
+
+| Acción | Comando |
+|--------|---------|
+| Levantar MongoDB | `docker compose up -d` |
+| Ver contenedores | `docker ps` |
+| Detener contenedor | `docker compose down` |
+| Eliminar contenedor + datos | `docker compose down -v` |
+
+### ✔ Listo
+
+Una vez levantado el contenedor ya puedes conectarte desde tu aplicación o cliente GUI. 
+
 ---
-## 🔑 LICENSE
+## 📄 LICENSE
 
 [MIT License](LICENSE)
