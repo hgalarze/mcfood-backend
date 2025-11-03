@@ -303,4 +303,4 @@ Authorization: Bearer <token>
 ---
 ## 🔑 LICENSE
 
-[MIT License](License)
+[MIT License](LICENSE)
