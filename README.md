@@ -299,3 +299,8 @@ o enviar token en headers:
 ```
 Authorization: Bearer <token>
 ```
+
+---
+## 🔑 LICENSE
+
+[MIT License](License)
