@@ -141,7 +141,7 @@ export const validate = async (req, res) => {
 			maxAge: 24 * 60 * 60 * 1000, // 1 day
 		});
 
-		return res.status(200).json(result.message);
+		return res.status(200).json(result);
 	} catch (error) {
 		if (error.statusCode === 400) {
 			return res

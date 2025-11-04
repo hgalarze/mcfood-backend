@@ -7,8 +7,8 @@ export const verifyTokenMiddleware = (req, res, next) => {
         const accessToken = req.cookies.authtoken || req.headers.authorization?.split(' ')[1];
 
         if (!accessToken) {
-            return res.status(400).json({
-                message: "Missing access token"
+            return res.status(401).json({
+                message: "Unauthorized"
             });
         }
 
@@ -19,8 +19,8 @@ export const verifyTokenMiddleware = (req, res, next) => {
         next();
 
     } catch(error) {
-        return res.status(400).json({
-            message: "Invalid access token",
+        return res.status(401).json({
+            message: "Unauthorized",
             error: error.message
         });
     }
